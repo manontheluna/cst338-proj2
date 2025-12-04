@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Project-2-paw</string>
+    <string name="p_a_w">P.A.W.</string>
+    <string name="pet_activity_and_wellness">Pet Activity and Wellness</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
