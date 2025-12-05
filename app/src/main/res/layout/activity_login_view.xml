@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginView">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/loginHeader"
+            android:text="@string/p_a_w"
+            android:textSize="48sp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/loginSubHeader"
+            android:text="@string/pet_activity_and_wellness"
+            android:textSize="24sp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/loginHeader"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="@string/username"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/loginSubHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="25dip"
+            android:id="@+id/loginUsernameInput"
+            />
+
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="@string/password"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/loginUsernameInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="25dip"
+            android:id="@+id/loginPasswordInput"
+            />
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:id="@+id/loginBtn"
+            android:text="@string/login"
+            app:layout_constraintTop_toBottomOf="@id/loginPasswordInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/primaryBtn"
+            android:textColor="@color/black"
+            />
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:id="@+id/signUpBtn"
+            android:text="@string/sign_up"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/loginBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
