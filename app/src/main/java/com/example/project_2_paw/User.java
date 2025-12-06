@@ -18,4 +18,7 @@ public class User {
     @NonNull
     @ColumnInfo(name = "password")
     public String password;
+
+    @ColumnInfo(name="isAdmin")
+    public boolean isAdmin;
 }

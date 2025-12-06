@@ -80,10 +80,8 @@ public class LoginView extends AppCompatActivity {
 
 // What happens when SIGN UP is clicked?
         signUpButton.setOnClickListener(v -> {
-            Toast.makeText(LoginView.this,
-                    "Signup screen will go here",
-                    Toast.LENGTH_SHORT).show();
-            // Later we'll open SignupActivity here with an Intent
+            Intent intent = new Intent(LoginView.this, SignupActivity.class);
+            startActivity(intent);
         });
     }
 }
