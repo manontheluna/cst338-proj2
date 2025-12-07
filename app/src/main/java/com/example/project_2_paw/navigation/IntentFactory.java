@@ -10,15 +10,15 @@ public class IntentFactory {
         return new Intent(context, LoginView.class);
     }
 
-    public static Intent signup(Context context) {
-        return new Intent(context, SignUpView.class);
-    }
+//    public static Intent signup(Context context) {
+//        return new Intent(context, SignUpView.class);
+//    }
 
-    public static Intent dashboard(Context context) {
-        return new Intent(context, Dashboard.class);
-    }
+//    public static Intent dashboard(Context context) {
+//        return new Intent(context, Dashboard.class);
+//    }
 
-    public static Intent petView(Context context) {
-        return new Intent(context, PetView.class);
-    }
+//    public static Intent petView(Context context) {
+//        return new Intent(context, PetView.class);
+//    }
 }
