@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.project_2_paw.data.dao.UserDAO;
+import com.example.project_2_paw.data.db.PawDatabase;
+import com.example.project_2_paw.data.entity.User;
+
+
 public class LoginView extends AppCompatActivity {
 
     private EditText usernameEditText;
@@ -25,21 +30,21 @@ public class LoginView extends AppCompatActivity {
     private Button loginButton;
     private Button signUpButton;
 
-    private AppDatabase db;
+    private PawDatabase db;
+    private UserDAO userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
 
-        db = AppDatabase.getInstance(this);
+        db = PawDatabase.getInstance(this);
+        userDao = db.userDAO();
 
-        User testUser = db.userDAO().findByUsername("admin1");
-        if (testUser == null) {
-            User admin = new User();
-            admin.username = "admin1";
-            admin.password = "admin1";
-            db.userDAO().insert(admin);
+        User testUser = userDao.getUserByUsername("admin1");
+        if (testUser == null){
+            User admin = new User("admin1", "admin1", true);
+            userDao.insert(admin);
         }
 
         usernameEditText = findViewById(R.id.loginUsernameInput);
@@ -60,9 +65,9 @@ public class LoginView extends AppCompatActivity {
 
                 return;
             }
-            User user = db.userDAO().findByUsername(username);
+            User user = userDao.login(username, password);
 
-            if (user == null || !user.password.equals(password)) {
+            if (user == null){
                 Toast.makeText(
                         LoginView.this,
                         "Invalid username or password",
@@ -73,7 +78,8 @@ public class LoginView extends AppCompatActivity {
 
             // Success → go to MainActivity (we'll turn that into Landing later)
             Intent intent = new Intent(LoginView.this, MainActivity.class);
-            intent.putExtra("username", user.username);
+            intent.putExtra("username", user.getUsername());
+            intent.putExtra("isAdmin", user.isAdmin());
             startActivity(intent);
             finish();
         });
