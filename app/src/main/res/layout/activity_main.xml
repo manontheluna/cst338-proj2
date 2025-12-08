@@ -35,6 +35,7 @@
         />
 
     <Button
+        android:id="@+id/createPetMain"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:text="@string/add_pet"
