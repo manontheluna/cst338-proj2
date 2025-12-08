@@ -36,7 +36,9 @@ public abstract class PawDatabase extends RoomDatabase{
                             context.getApplicationContext(),
                             PawDatabase.class,
                             "paw_database"
-                    ).build();
+                    ) .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
+                            .build();
                 }
             }
         }
