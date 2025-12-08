@@ -2,14 +2,18 @@ package com.example.project_2_paw.data.db;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.dao.PetDAO;
 import com.example.project_2_paw.data.entity.User;
 import com.example.project_2_paw.data.entity.Pet;
+
+import java.util.concurrent.Executors;
 
 
 /**
@@ -36,10 +40,26 @@ public abstract class PawDatabase extends RoomDatabase{
                             context.getApplicationContext(),
                             PawDatabase.class,
                             "paw_database"
-                    ).build();
+                    ).addCallback(cb).build();
                 }
             }
         }
         return INSTANCE;
     }
+
+    private static final RoomDatabase.Callback cb = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+
+            Executors.newSingleThreadExecutor().execute(() -> {
+                PawDatabase instance = INSTANCE;
+                if (instance != null) {
+                    instance.userDAO().insert(
+                            new User("admin", "admin123", true)
+                    );
+                }
+            });
+        }
+    };
 }
