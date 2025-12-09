@@ -74,6 +74,7 @@ public class LoginView extends AppCompatActivity {
             // Success → go to MainActivity (we'll turn that into Landing later)
             Intent intent = new Intent(LoginView.this, MainActivity.class);
             intent.putExtra("username", user.username);
+            intent.putExtra("userId", user.id);
             startActivity(intent);
             finish();
         });

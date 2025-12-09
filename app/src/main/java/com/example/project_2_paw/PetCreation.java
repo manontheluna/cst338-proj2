@@ -22,7 +22,7 @@ public class PetCreation extends AppCompatActivity {
     private EditText petName;
     private EditText petAge;
     private Spinner petSpecies;
-    private Button savePet;
+    private Button savePetBtn;
 
     private PawRepository repository;
     private int ownerId = 1;
@@ -39,7 +39,14 @@ public class PetCreation extends AppCompatActivity {
         petName = findViewById(R.id.petNameInput);
         petAge = findViewById(R.id.petAgeInput);
         petSpecies = findViewById(R.id.petSpeciesSpinner);
-        savePet = findViewById(R.id.savePetButton);
+        savePetBtn = findViewById(R.id.savePetButton);
+
+        // get ownerId
+        ownerId = getIntent().getIntExtra("ownerId", -1);
+
+        if (ownerId == -1) {
+            Toast.makeText(this, "Error: no owner found", Toast.LENGTH_SHORT).show();
+        }
 
         String[] speciesOptions = { "Dog", "Cat" };
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -49,7 +56,7 @@ public class PetCreation extends AppCompatActivity {
         );
         petSpecies.setAdapter(adapter);
 
-        savePet.setOnClickListener(new View.OnClickListener() {
+        savePetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savePet();

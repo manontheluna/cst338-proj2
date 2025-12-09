@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView welcome;
     private TextView createPet;
+    private int currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         welcome = findViewById(R.id.welcome);
         createPet = findViewById(R.id.createPetMain);
+        currentUserId = getIntent().getIntExtra("userId", -1);
 
         String username = getIntent().getStringExtra("username");
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // route to pet creation on click of button in main activity
                 Intent intent = new Intent(MainActivity.this, PetCreation.class);
+                intent.putExtra("ownerId", currentUserId);
                 startActivity(intent);
             }
         });
