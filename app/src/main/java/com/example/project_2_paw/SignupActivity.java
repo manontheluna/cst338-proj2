@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_2_paw.data.dao.UserDAO;
@@ -47,26 +46,31 @@ public class SignupActivity extends AppCompatActivity {
             String password = passwordInput.getText().toString().trim();
             String confirmPassword = confirmPasswordInput.getText().toString().trim();
 
-
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(SignupActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if (!password.equals(confirmPassword)) {
                 Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 return;
             }
-            User existing = db.userDAO().getUserByUsername(username);
+
+            // Use shared DAO method name: getUserByUsername
+            User existing = userDao.getUserByUsername(username);
             if (existing != null) {
-                Toast.makeText(SignupActivity.this, "Username already exist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                return;
             }
-         User user = new User(username, password, false);
+
+            // Create and insert new non-admin user
+            User user = new User(username, password, false);
             userDao.insert(user);
 
             Toast.makeText(SignupActivity.this, "Account created! Please log in.", Toast.LENGTH_SHORT).show();
 
+            // Go back to LoginView
             finish();
         });
     }
 }
-

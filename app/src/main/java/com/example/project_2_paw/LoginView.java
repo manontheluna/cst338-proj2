@@ -7,21 +7,15 @@ package com.example.project_2_paw;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
-
 
 public class LoginView extends AppCompatActivity {
 
@@ -41,33 +35,35 @@ public class LoginView extends AppCompatActivity {
         db = PawDatabase.getInstance(this);
         userDao = db.userDAO();
 
+        // Seed an admin user if not present
         User testUser = userDao.getUserByUsername("admin1");
-        if (testUser == null){
-            User admin = new User("admin1", "admin1", true);
+        if (testUser == null) {
+            User admin = new User("admin1", "admin1", true);  // username, password, isAdmin
             userDao.insert(admin);
         }
 
         usernameEditText = findViewById(R.id.loginUsernameInput);
-
         passwordEditText = findViewById(R.id.loginPasswordInput);
-
-        loginButton = findViewById(R.id.loginBtn);
-
-        signUpButton = findViewById(R.id.signUpBtn);
+        loginButton      = findViewById(R.id.loginBtn);
+        signUpButton     = findViewById(R.id.signUpBtn);
 
         loginButton.setOnClickListener(v -> {
             String username = usernameEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter both username and password",
-                        Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(
+                        LoginView.this,
+                        "Please enter both username and password",
+                        Toast.LENGTH_SHORT
+                ).show();
                 return;
             }
+
+            // Use DAO's login method: validates username + password
             User user = userDao.login(username, password);
 
-            if (user == null){
+            if (user == null) {
                 Toast.makeText(
                         LoginView.this,
                         "Invalid username or password",
@@ -76,7 +72,7 @@ public class LoginView extends AppCompatActivity {
                 return;
             }
 
-            // Success → go to MainActivity (we'll turn that into Landing later)
+            // Success → go to MainActivity (Landing/Dashboard)
             Intent intent = new Intent(LoginView.this, MainActivity.class);
             intent.putExtra("username", user.getUsername());
             intent.putExtra("isAdmin", user.isAdmin());
@@ -84,7 +80,7 @@ public class LoginView extends AppCompatActivity {
             finish();
         });
 
-// What happens when SIGN UP is clicked?
+        // SIGN UP → open SignupActivity
         signUpButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginView.this, SignupActivity.class);
             startActivity(intent);
