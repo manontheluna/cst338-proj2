@@ -17,6 +17,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.repository.PawRepository;
 
+/**
+ * @author Edward Luna
+ * Petcreation is activity that allows user to create a new pet
+ * it can set name, age, and species
+ * pet is saved to db with currently logged in users id
+ */
 public class PetCreation extends AppCompatActivity {
 
     private EditText petName;

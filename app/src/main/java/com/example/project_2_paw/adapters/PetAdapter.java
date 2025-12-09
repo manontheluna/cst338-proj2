@@ -13,6 +13,15 @@ import com.example.project_2_paw.data.entity.Pet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Edward Luna
+ * RecyclerView Adapter that displays list of pets associated
+ * with currently logged in user shows pet name and details (species/age)
+ * create instance of pet adapter
+ * set it on a recycler view
+ * call set pets to populate list
+ */
+
 public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
     private List<Pet> pets = new ArrayList<>();
 
