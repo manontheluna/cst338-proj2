@@ -11,8 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.project_2_paw.data.dao.UserDAO;
+import com.example.project_2_paw.data.db.PawDatabase;
+import com.example.project_2_paw.data.entity.User;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -21,14 +24,16 @@ public class SignupActivity extends AppCompatActivity {
     private EditText confirmPasswordInput;
     private Button submitButton;
 
-    private AppDatabase db;
+    private PawDatabase db;
+    private UserDAO userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        db = AppDatabase.getInstance(this);
+        db = PawDatabase.getInstance(this);
+        userDao = db.userDAO();
 
         usernameInput = findViewById(R.id.signupUsername);
         passwordInput = findViewById(R.id.signupPassword);
@@ -41,30 +46,31 @@ public class SignupActivity extends AppCompatActivity {
             String password = passwordInput.getText().toString().trim();
             String confirmPassword = confirmPasswordInput.getText().toString().trim();
 
-
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!password.equals(confirmPassword)) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            User existing = db.userDAO().findByUsername(username);
-            if (existing != null) {
-                Toast.makeText(this, "Username already exist", Toast.LENGTH_SHORT).show();
-            }
-            User user = new User();
-            user.username = username;
-            user.password = password;
-            user.isAdmin = false;
 
-            db.userDAO().insert(user);
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Use shared DAO method name: getUserByUsername
+            User existing = userDao.getUserByUsername(username);
+            if (existing != null) {
+                Toast.makeText(SignupActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Create and insert new non-admin user
+            User user = new User(username, password, false);
+            userDao.insert(user);
 
             Toast.makeText(SignupActivity.this, "Account created! Please log in.", Toast.LENGTH_SHORT).show();
 
+            // Go back to LoginView
             finish();
         });
     }
 }
-
