@@ -34,6 +34,16 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/petRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/petListHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="35dp"
+        />
+
     <Button
         android:id="@+id/createPetMain"
         android:layout_width="100dp"
@@ -43,7 +53,7 @@
         android:gravity="center_horizontal"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/petListHeader"
+        app:layout_constraintTop_toBottomOf="@id/petRecycler"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
