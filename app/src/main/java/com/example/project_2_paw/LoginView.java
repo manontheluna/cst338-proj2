@@ -76,8 +76,7 @@ public class LoginView extends AppCompatActivity {
             Intent intent = new Intent(LoginView.this, MainActivity.class);
             intent.putExtra("username", user.getUsername());
             intent.putExtra("isAdmin", user.isAdmin());
-            intent.putExtra("username", user.username);
-            intent.putExtra("userId", user.id);
+            intent.putExtra("userId", user.getUserId());
 
             startActivity(intent);
             finish();
