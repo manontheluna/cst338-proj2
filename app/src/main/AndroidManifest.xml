@@ -12,12 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project2paw">
         <activity
+            android:name=".PetCreation"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginView"
             android:exported="true">
