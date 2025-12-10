@@ -14,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.repository.PawRepository;
 
@@ -33,7 +34,7 @@ public class PetCreation extends AppCompatActivity {
     private PawRepository repository;
     private int ownerId = 1;
 
-    private AppDatabase db;
+    private PawDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
