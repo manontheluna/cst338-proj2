@@ -3,7 +3,7 @@ package com.example.project_2_paw.typeConverters;
 import androidx.room.TypeConverter;
 
 import java.time.LocalDate;
-public class LocalDateTypeConverters {
+public class LocalDateTypeConverter {
     @TypeConverter
     public static LocalDate toDate(String value) {
         return value == null ? null : LocalDate.parse(value);
