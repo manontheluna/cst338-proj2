@@ -13,4 +13,9 @@
     <string name="pet_name">Pet Name</string>
     <string name="pet_age">Pet Age</string>
     <string name="save_pet">Save Pet</string>
+    <string name="pet_name_title">Pet Name</string>
+    <string name="back">Back</string>
+    <string name="add_task">Add Task</string>
+    <string name="completed">Completed</string>
+    <string name="care_to_dos">Care To-dos</string>
 </resources>
