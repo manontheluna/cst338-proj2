@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.dao.PetDAO;
+import com.example.project_2_paw.data.dao.CareTaskDAO;
 import com.example.project_2_paw.data.entity.CareTask;
 import com.example.project_2_paw.data.entity.User;
 import com.example.project_2_paw.data.entity.Pet;
@@ -29,6 +30,7 @@ public abstract class PawDatabase extends RoomDatabase{
     // DAO accessors
     public abstract UserDAO userDAO();
     public abstract PetDAO petDAO();
+    public abstract CareTaskDAO careTaskDAO();
 
     // Singleton instance of the database
     private static volatile PawDatabase INSTANCE;

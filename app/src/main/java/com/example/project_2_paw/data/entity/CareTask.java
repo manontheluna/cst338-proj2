@@ -18,7 +18,7 @@ public class CareTask {
     @PrimaryKey(autoGenerate = true)
     private int taskId;
 
-    private int petId;          // FK to Pet.petId
+    private int petId;
     private String taskName;
     private LocalDate dueDate;
     private boolean isCompleted;
