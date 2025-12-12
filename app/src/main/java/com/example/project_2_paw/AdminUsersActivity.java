@@ -19,6 +19,8 @@ public class AdminUsersActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_users);
 
+        findViewById(R.id.btnBackAdminUsers).setOnClickListener(v -> finish());
+
         RecyclerView rv = findViewById(R.id.adminUsersRecycler);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
