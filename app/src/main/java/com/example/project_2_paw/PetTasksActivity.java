@@ -66,10 +66,9 @@ public class PetTasksActivity extends AppCompatActivity{
         backFromTasksButton.setOnClickListener(v -> finish());
 
         addTaskButton.setOnClickListener(v -> {
-            // TODO: start Tasks Form Activity when implemented
-            // Intent formIntent = new Intent(this, TaskFormActivity.class);
-            // formIntent.putExtra(EXTRA_PET_ID, petId);
-            // startActivity(formIntent);
+            Intent formIntent = new Intent(PetTasksActivity.this, TaskFormActivity.class);
+            formIntent.putExtra(EXTRA_PET_ID, petId);
+            startActivity(formIntent);
         });
 
         showCompletedButton.setOnClickListener(v -> {
@@ -81,5 +80,10 @@ public class PetTasksActivity extends AppCompatActivity{
             List<CareTask> tasks = repository.getTasksForPetSync(petId);
             runOnUiThread(() -> taskAdapter.setTasks(tasks));
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadTasksFromDatabase();
     }
 }
