@@ -22,7 +22,7 @@
         android:id="@+id/careTodosHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/care_to_dos"
+        android:text="@string/tasks"
         android:textSize="18sp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
@@ -37,44 +37,45 @@
         app:layout_constraintTop_toBottomOf="@id/careTodosHeader"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/showCompletedButton" />
+        app:layout_constraintBottom_toTopOf="@id/buttonRow" />
 
-    <Button
-        android:id="@+id/showCompletedButton"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="@string/completed"
-        android:textSize="14sp"
-        android:layout_marginStart="30dp"
+    <LinearLayout
+        android:id="@+id/buttonRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/addTaskButton"
-        app:layout_constraintHorizontal_chainStyle="packed" />
-
-    <Button
-        android:id="@+id/addTaskButton"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="@string/add_task"
-        android:textSize="14sp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/showCompletedButton"
-        app:layout_constraintEnd_toStartOf="@id/backFromTasksButton" />
-
-    <Button
-        android:id="@+id/backFromTasksButton"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="@string/back"
-        android:textSize="14sp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/addTaskButton" />
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <Button
+            android:id="@+id/backFromTasksButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Back"
+            android:textSize="14sp" />
 
+        <Button
+            android:id="@+id/addTaskButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Add"
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" />
+
+        <Button
+            android:id="@+id/showCompletedButton"
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Completed"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

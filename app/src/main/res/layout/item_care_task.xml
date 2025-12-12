@@ -11,14 +11,23 @@
         android:id="@+id/textTaskName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Shower"
+        android:text="Vet appointment"
         android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/checkTaskCompleted"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:ellipsize="end"
-        android:maxLines="1" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textTaskDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Due: 12-09-2025"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/textTaskName"
+        app:layout_constraintEnd_toEndOf="@id/textTaskName"
+        app:layout_constraintTop_toBottomOf="@id/textTaskName" />
 
     <CheckBox
         android:id="@+id/checkTaskCompleted"

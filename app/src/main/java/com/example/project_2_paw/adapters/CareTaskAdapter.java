@@ -14,6 +14,7 @@ import com.example.project_2_paw.data.entity.CareTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class CareTaskAdapter extends RecyclerView.Adapter<CareTaskAdapter.CareTaskViewHolder> {
     public interface OnTaskCheckedChangeListener {
@@ -42,6 +43,14 @@ public class CareTaskAdapter extends RecyclerView.Adapter<CareTaskAdapter.CareTa
     public void onBindViewHolder(@NonNull CareTaskViewHolder holder, int position) {
         CareTask task = tasks.get(position);
         holder.taskName.setText(task.getTaskName());
+        holder.taskDate.setText("Due: " + task.getDueDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
+        if (task.getDueDate() != null) {
+            holder.taskDate.setText("Due: " + task.getDueDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        } else {
+            holder.taskDate.setText("Due: -");
+        }
+
         holder.completedCheckBox.setOnCheckedChangeListener(null);
         holder.completedCheckBox.setChecked(task.isCompleted());
 
@@ -59,11 +68,13 @@ public class CareTaskAdapter extends RecyclerView.Adapter<CareTaskAdapter.CareTa
 
     static class CareTaskViewHolder extends RecyclerView.ViewHolder {
         TextView taskName;
+        TextView taskDate;
         CheckBox completedCheckBox;
 
         CareTaskViewHolder(@NonNull View itemView) {
             super(itemView);
             taskName = itemView.findViewById(R.id.textTaskName);
+            taskDate = itemView.findViewById(R.id.textTaskDate);
             completedCheckBox = itemView.findViewById(R.id.checkTaskCompleted);
         }
     }
