@@ -13,4 +13,7 @@
     <string name="pet_name">Pet Name</string>
     <string name="pet_age">Pet Age</string>
     <string name="save_pet">Save Pet</string>
+    <string name="tasks">Tasks</string>
+    <string name="users">Users</string>
+    <string name="back">Back</string>
 </resources>
