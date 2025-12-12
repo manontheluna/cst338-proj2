@@ -24,4 +24,7 @@ public interface CareTaskDAO {
 
     @Query("SELECT * FROM caretask WHERE petId = :petId")
     LiveData<List<CareTask>> getTasksForPet(int petId);
+
+    @Query("SELECT * FROM CareTask")
+    List<CareTask> getAllTasks();
 }
