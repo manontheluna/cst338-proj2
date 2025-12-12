@@ -87,7 +87,7 @@ public class LoginView extends AppCompatActivity {
 
         // SIGN UP → open SignupActivity
         signUpButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginView.this, SignupActivity.class);
+            Intent intent = IntentFactory.createSignup(LoginView.this);
             startActivity(intent);
         });
     }

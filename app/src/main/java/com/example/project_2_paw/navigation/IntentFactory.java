@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.example.project_2_paw.LoginView;
 import com.example.project_2_paw.MainActivity;
+import com.example.project_2_paw.SignupActivity;
 
 public class IntentFactory {
     // centralized keys to avoid duplicates
@@ -20,9 +21,9 @@ public class IntentFactory {
         return intent;
     }
 
-//    public static Intent signup(Context context) {
-//        return new Intent(context, SignUpView.class);
-//    }
+    public static Intent createSignup(Context context) {
+        return new Intent(context, SignupActivity.class);
+    }
 
 //    public static Intent dashboard(Context context) {
 //        return new Intent(context, Dashboard.class);
