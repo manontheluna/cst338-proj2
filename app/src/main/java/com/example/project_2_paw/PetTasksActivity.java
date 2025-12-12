@@ -27,6 +27,7 @@ public class PetTasksActivity extends AppCompatActivity{
     private Button addTaskButton;
     private Button backFromTasksButton;
     private CareTaskAdapter taskAdapter;
+    private boolean showCompleted = false;
 
     private PawRepository repository;
 
@@ -55,8 +56,8 @@ public class PetTasksActivity extends AppCompatActivity{
         taskRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         taskAdapter = new CareTaskAdapter((task, isChecked) -> {
-            // TODO: later update task.isCompleted in DB using repository
             task.setCompleted(isChecked);
+            repository.updateTask(task);
         });
         taskRecycler.setAdapter(taskAdapter);
 
@@ -72,12 +73,21 @@ public class PetTasksActivity extends AppCompatActivity{
         });
 
         showCompletedButton.setOnClickListener(v -> {
-            // TODO: toggle between to-do vs completed lists later
+            showCompleted = !showCompleted;
+
+            // Update button text so user knows what mode they're in
+            if (showCompleted) {
+                showCompletedButton.setText("To-dos");
+            } else {
+                showCompletedButton.setText("Completed");
+            }
+
+            loadTasksFromDatabase();
         });
     }
     private void loadTasksFromDatabase() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<CareTask> tasks = repository.getTasksForPetSync(petId);
+            List<CareTask> tasks = repository.getTasksForPetByCompletionSync(petId, showCompleted);
             runOnUiThread(() -> taskAdapter.setTasks(tasks));
         });
     }
