@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_2_paw.adapters.CareTaskAdapter;
 import com.example.project_2_paw.data.entity.CareTask;
+import com.example.project_2_paw.data.repository.PawRepository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class PetTasksActivity extends AppCompatActivity{
     public static final String EXTRA_PET_ID = "petId";
@@ -28,6 +28,8 @@ public class PetTasksActivity extends AppCompatActivity{
     private Button backFromTasksButton;
     private CareTaskAdapter taskAdapter;
 
+    private PawRepository repository;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,8 @@ public class PetTasksActivity extends AppCompatActivity{
         Intent intent = getIntent();
         petId = intent.getIntExtra(EXTRA_PET_ID, -1);
         String petName = intent.getStringExtra(EXTRA_PET_NAME);
+
+        repository = new PawRepository(this);
 
         petNameTitle = findViewById(R.id.petNameTitle);
         taskRecycler = findViewById(R.id.taskRecycler);
@@ -56,13 +60,13 @@ public class PetTasksActivity extends AppCompatActivity{
         });
         taskRecycler.setAdapter(taskAdapter);
 
-        loadDummyTasks();
+        loadTasksFromDatabase();
 
         // 5. Buttons – only navigation placeholders for now
         backFromTasksButton.setOnClickListener(v -> finish());
 
         addTaskButton.setOnClickListener(v -> {
-            // TODO: start Tasks Form Activity when you implement it
+            // TODO: start Tasks Form Activity when implemented
             // Intent formIntent = new Intent(this, TaskFormActivity.class);
             // formIntent.putExtra(EXTRA_PET_ID, petId);
             // startActivity(formIntent);
@@ -72,17 +76,10 @@ public class PetTasksActivity extends AppCompatActivity{
             // TODO: toggle between to-do vs completed lists later
         });
     }
-    private void loadDummyTasks() {
-        List<CareTask> demoTasks = new ArrayList<>();
-
-        // Use today's date for now; we'll filter properly later
-        LocalDate today = LocalDate.now();
-
-        demoTasks.add(new CareTask(petId, "Feed",   today, false));
-        demoTasks.add(new CareTask(petId, "Shower", today, true));
-        demoTasks.add(new CareTask(petId, "Walk",   today, false));
-
-
-        taskAdapter.setTasks(demoTasks);
+    private void loadTasksFromDatabase() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<CareTask> tasks = repository.getTasksForPetSync(petId);
+            runOnUiThread(() -> taskAdapter.setTasks(tasks));
+        });
     }
 }
