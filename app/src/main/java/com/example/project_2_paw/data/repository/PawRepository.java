@@ -44,6 +44,10 @@ public class PawRepository {
         return userDAO.login(username, password);
     }
 
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
     // ----- Pet operations -----
     public void insertPet(Pet pet) {
         executor.execute(() -> petDAO.insert(pet));
