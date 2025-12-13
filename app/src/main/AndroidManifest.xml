@@ -21,6 +21,10 @@
             android:name=".SignupActivity"
             android:exported="false" />
         <activity
+            android:name=".PetTasksActivity" />
+        <activity
+            android:name=".TaskFormActivity" />
+        <activity
             android:name=".LoginView"
             android:exported="true">
             <intent-filter>

@@ -50,7 +50,13 @@ public class MainActivity extends AppCompatActivity {
         repository = new PawRepository(this);
         petRecyclerView = findViewById(R.id.petRecycler);
         petRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        petAdapter = new PetAdapter();
+        petAdapter = new PetAdapter(pet -> {
+            Intent intent = new Intent(MainActivity.this, PetTasksActivity.class);
+            intent.putExtra(PetTasksActivity.EXTRA_PET_ID, pet.getPetId());
+            intent.putExtra(PetTasksActivity.EXTRA_PET_NAME, pet.getName());
+            startActivity(intent);
+        });
+
         petRecyclerView.setAdapter(petAdapter);
 
         loadPets();
