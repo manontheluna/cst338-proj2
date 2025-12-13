@@ -7,6 +7,8 @@ import androidx.room.Query;
 
 import com.example.project_2_paw.data.entity.User;
 
+import java.util.List;
+
 /**
  * Author: Quratulain Siddiq
  * Project 2: P.A.W (Pet, Activity & Wellness)
@@ -22,6 +24,9 @@ public interface UserDAO {
     // Retrieves a user by username.
     @Query("SELECT * FROM user_table WHERE username = :username LIMIT 1")
     User getUserByUsername(String username);
+
+    @Query("SELECT * FROM user_table ORDER BY username ASC")
+    List<User> getAllUsers();
 
     // Validates login credentials.
     @Query("SELECT * FROM user_table WHERE username = :username AND password = :password LIMIT 1")
