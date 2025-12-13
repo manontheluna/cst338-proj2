@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
+import com.example.project_2_paw.navigation.IntentFactory;
+
 
 /**
  * LoginView handles all login-related functionality.
@@ -51,11 +54,13 @@ public class LoginView extends AppCompatActivity {
         userSession = new UserSession(this);
 
         // If user is already logged in, skip login screen and go to MainActivity
-        if (userSession.isLoggedIn()) {
-            Intent intent = new Intent(LoginView.this, MainActivity.class);
-            intent.putExtra("username", userSession.getUsername());
-            intent.putExtra("isAdmin", userSession.isAdmin());
-            intent.putExtra("userId", userSession.getUserId());
+        if (userSession.isLoggedIn()){
+            Intent intent = IntentFactory.createMain(
+                    LoginView.this,
+                    userSession.getUsername(),
+                    userSession.isAdmin(),
+                    userSession.getUserId()
+            );
             startActivity(intent);
             finish();
             return;
@@ -107,17 +112,19 @@ public class LoginView extends AppCompatActivity {
             userSession.saveUser(user);
 
             // Success → go to MainActivity (Landing/Dashboard)
-            Intent intent = new Intent(LoginView.this, MainActivity.class);
-            intent.putExtra("username", user.getUsername());
-            intent.putExtra("isAdmin", user.isAdmin());
-            intent.putExtra("userId", user.getUserId());
+            Intent intent = IntentFactory.createMain(
+                    LoginView.this,
+                    user.getUsername(),
+                    user.isAdmin(),
+                    user.getUserId()
+            );
             startActivity(intent);
             finish();
         });
 
         // SIGN UP → open SignupActivity
         signUpButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginView.this, SignupActivity.class);
+            Intent intent = IntentFactory.createSignup(LoginView.this);
             startActivity(intent);
         });
     }

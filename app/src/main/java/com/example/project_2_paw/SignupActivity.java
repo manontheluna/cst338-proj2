@@ -86,4 +86,20 @@ public class SignupActivity extends AppCompatActivity {
             finish();
         });
     }
+
+    /**
+     * For testing purposes only.
+     * Validates the signup input fields.
+     * @param username
+     * @param password
+     * @param confirmPassword
+     * @return true if all fields are filled and passwords match, false otherwise.
+     */
+    public static boolean isSignupValid(String username, String password, String confirmPassword){
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            return false;
+        }
+        return password.equals(confirmPassword);
+    }
+
 }

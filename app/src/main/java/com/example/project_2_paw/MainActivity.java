@@ -3,6 +3,7 @@ package com.example.project_2_paw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView welcome;
     private TextView createPet;
+
+    private Button logoutButton; // Added by Manuel for logout function
     private String username;
     private int currentUserId;
 
@@ -33,13 +36,18 @@ public class MainActivity extends AppCompatActivity {
     private PetAdapter petAdapter;
     private PawRepository repository;
 
+    private UserSession userSession; // Added by Manuel for logout function
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        userSession = new UserSession(this); // Initialize UserSession. Added by Manuel for logout function
+
         welcome = findViewById(R.id.welcome);
         createPet = findViewById(R.id.createPetMain);
+        logoutButton = findViewById(R.id.logoutButton); // Initialize logout button. Added by Manuel for logout function
         currentUserId = getIntent().getIntExtra("userId", -1);
         username = getIntent().getStringExtra("username");
 
@@ -63,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = IntentFactory.createPet(MainActivity.this, currentUserId);
                 startActivity(intent);
             }
+        });
+        // logout logic. Added by Manuel for logout function
+        logoutButton.setOnClickListener(v -> {
+            userSession.logout(); // Clear session data
+            Intent intent = new Intent(MainActivity.this, LoginView.class);
+            startActivity(intent);
+            finish(); // Close MainActivity
         });
     }
 
