@@ -17,6 +17,12 @@ import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
 
+/**
+ * SignupActivity provides the user interface and logic for creating a new account.
+ * It collects username and password inputs, validates them, checks for existing usernames,
+ * and inserts new user records into the database.
+ * Upon successful signup, it prompts the user to log in and returns to the LoginView.
+ */
 public class SignupActivity extends AppCompatActivity {
 
     private EditText usernameInput;
@@ -26,6 +32,13 @@ public class SignupActivity extends AppCompatActivity {
 
     private PawDatabase db;
     private UserDAO userDao;
+
+    /**
+     * Initializes the signup form, sets up database access,
+     * and handles behavior for creating a new user account.
+     * @param savedInstanceState Saved instance state bundle
+     *
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
 
-            // Use shared DAO method name: getUserByUsername
+            // Check if username already exists
             User existing = userDao.getUserByUsername(username);
             if (existing != null) {
                 Toast.makeText(SignupActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
@@ -69,7 +82,7 @@ public class SignupActivity extends AppCompatActivity {
 
             Toast.makeText(SignupActivity.this, "Account created! Please log in.", Toast.LENGTH_SHORT).show();
 
-            // Go back to LoginView
+            // Return to LoginView
             finish();
         });
     }
