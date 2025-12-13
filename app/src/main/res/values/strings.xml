@@ -6,4 +6,11 @@
     <string name="password">password</string>
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
+    <string name="welcome">Welcome!</string>
+    <string name="list_of_pets">List of Pets</string>
+    <string name="add_pet">Add Pet</string>
+    <string name="create_a_new_pet">Create a new pet</string>
+    <string name="pet_name">Pet Name</string>
+    <string name="pet_age">Pet Age</string>
+    <string name="save_pet">Save Pet</string>
 </resources>

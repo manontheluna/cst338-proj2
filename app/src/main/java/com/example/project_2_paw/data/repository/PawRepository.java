@@ -1,12 +1,15 @@
 package com.example.project_2_paw.data.repository;
 
 import android.content.Context;
+import androidx.lifecycle.LiveData;
 
+import com.example.project_2_paw.data.dao.CareTaskDAO;
 import com.example.project_2_paw.data.dao.PetDAO;
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.entity.User;
+import com.example.project_2_paw.data.entity.CareTask;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -22,12 +25,14 @@ import java.util.concurrent.Executors;
 public class PawRepository {
     private final UserDAO userDAO;
     private final PetDAO petDAO;
+    private final CareTaskDAO careTaskDAO;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public PawRepository(Context context) {
         PawDatabase db = PawDatabase.getInstance(context);
         userDAO = db.userDAO();
         petDAO = db.petDAO();
+        careTaskDAO = db.careTaskDAO();
     }
 
     // ----- User operations -----
@@ -46,5 +51,19 @@ public class PawRepository {
 
     public List<Pet> getPetsByOwnerId(int ownerId) {
         return petDAO.getPetsByOwnerId(ownerId);
+    }
+
+    // ----- CareTask operations -----
+    public void insertTask(CareTask task) {
+        executor.execute(() -> careTaskDAO.insertTask(task));
+    }
+    public void updateTask(CareTask task) {
+        executor.execute(() -> careTaskDAO.updateTask(task));
+    }
+    public void deleteTask(CareTask task) {
+        executor.execute(() -> careTaskDAO.deleteTask(task));
+    }
+    public LiveData<List<CareTask>> getTasksForPet(int petId) {
+        return careTaskDAO.getTasksForPet(petId);
     }
 }

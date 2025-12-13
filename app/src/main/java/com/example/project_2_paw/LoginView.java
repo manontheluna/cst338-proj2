@@ -17,7 +17,6 @@ import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
 
-
 public class LoginView extends AppCompatActivity {
 
     private EditText usernameEditText;
@@ -27,16 +26,17 @@ public class LoginView extends AppCompatActivity {
 
     private PawDatabase db;
     private UserDAO userDao;
-    private UserSession userSession;
-
+    private UserSession userSession;   // session manager
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
 
+        // Initialize session
         userSession = new UserSession(this);
 
+        // If already logged in, skip login screen
         if (userSession.isLoggedIn()) {
             Intent intent = new Intent(LoginView.this, MainActivity.class);
             intent.putExtra("username", userSession.getUsername());
@@ -87,8 +87,8 @@ public class LoginView extends AppCompatActivity {
                 return;
             }
 
-            // Save user session
-            userSession.saveUser(user);
+            // Save user session so login persists
+            userSession.saveUser(user);  // <-- IMPORTANT LINE
 
             // Success → go to MainActivity (Landing/Dashboard)
             Intent intent = new Intent(LoginView.this, MainActivity.class);
