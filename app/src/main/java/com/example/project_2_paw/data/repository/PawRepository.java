@@ -43,9 +43,11 @@ public class PawRepository {
     public User login(String username, String password) {
         return userDAO.login(username, password);
     }
-
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
+    }
+    public User getUserById(int id) {
+        return userDAO.getUserById(id);
     }
 
     // ----- Pet operations -----

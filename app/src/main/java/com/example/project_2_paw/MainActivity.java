@@ -6,11 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +15,6 @@ import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.repository.PawRepository;
 import com.example.project_2_paw.navigation.IntentFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -34,20 +29,28 @@ public class MainActivity extends AppCompatActivity {
     private PetAdapter petAdapter;
     private PawRepository repository;
 
+    private Button btnAdmin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button adminBtn = findViewById(R.id.goAdminButton);
-        adminBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, AdminPageActivity.class));
-        });
-
         welcome = findViewById(R.id.welcome);
         createPet = findViewById(R.id.createPetMain);
         currentUserId = getIntent().getIntExtra("userId", -1);
         username = getIntent().getStringExtra("username");
+        boolean isAdmin = getIntent().getBooleanExtra("isAdmin", false);
+
+        btnAdmin = findViewById(R.id.btnAdmin);
+
+        if (isAdmin) {
+            btnAdmin.setVisibility(View.VISIBLE);
+            btnAdmin.setOnClickListener(v ->
+                    startActivity(new Intent(MainActivity.this, AdminPageActivity.class)));
+        } else {
+            btnAdmin.setVisibility(View.GONE);
+        }
 
         if (username != null) {
             welcome.setText("Welcome, " + username + "!");
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         petRecyclerView.setAdapter(petAdapter);
 
         loadPets();
-
         // create pet logic
         createPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,16 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
         loadPets();
     }
-
     private void loadPets() {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Pet> pets = repository.getPetsByOwnerId(currentUserId);

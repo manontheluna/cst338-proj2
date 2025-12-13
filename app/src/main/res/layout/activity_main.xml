@@ -57,14 +57,14 @@
         />
 
     <Button
-        android:id="@+id/goAdminButton"
+        android:id="@+id/btnAdmin"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:text="Admin"
-        android:textSize="14sp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createPetMain" />
+        app:layout_constraintTop_toBottomOf="@+id/createPetMain"
+        android:visibility="gone" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
