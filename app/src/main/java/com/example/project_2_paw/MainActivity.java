@@ -3,6 +3,7 @@ package com.example.project_2_paw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button adminBtn = findViewById(R.id.goAdminButton);
+        adminBtn.setOnClickListener(v -> {
+            startActivity(new Intent(this, AdminPageActivity.class));
+        });
+
         welcome = findViewById(R.id.welcome);
         createPet = findViewById(R.id.createPetMain);
         currentUserId = getIntent().getIntExtra("userId", -1);
@@ -70,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
+
 
     @Override
     protected void onResume() {

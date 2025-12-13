@@ -44,6 +44,10 @@ public class PawRepository {
         return userDAO.login(username, password);
     }
 
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
     // ----- Pet operations -----
     public void insertPet(Pet pet) {
         executor.execute(() -> petDAO.insert(pet));
@@ -65,6 +69,9 @@ public class PawRepository {
     }
     public LiveData<List<CareTask>> getTasksForPet(int petId) {
         return careTaskDAO.getTasksForPet(petId);
+    }
+    public List<CareTask> getAllTasks() {
+        return careTaskDAO.getAllTasks();
     }
     public List<CareTask> getTasksForPetSync(int petId) {
         return careTaskDAO.getTasksForPetSync(petId);
