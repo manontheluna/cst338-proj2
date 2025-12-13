@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.repository.PawRepository;
+import com.example.project_2_paw.navigation.IntentFactory;
 
 /**
  * @author Edward Luna
@@ -48,8 +49,8 @@ public class PetCreation extends AppCompatActivity {
         petSpecies = findViewById(R.id.petSpeciesSpinner);
         savePetBtn = findViewById(R.id.savePetButton);
 
-        // get ownerId
-        ownerId = getIntent().getIntExtra("ownerId", -1);
+        // get ownerId & user owner id stored in factory for consistency
+        ownerId = getIntent().getIntExtra(IntentFactory.EXTRA_OWNER_ID, -1);
 
         if (ownerId == -1) {
             Toast.makeText(this, "Error: no owner found", Toast.LENGTH_SHORT).show();
