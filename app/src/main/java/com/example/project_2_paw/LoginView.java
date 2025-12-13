@@ -17,6 +17,7 @@ import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
 
+
 public class LoginView extends AppCompatActivity {
 
     private EditText usernameEditText;
@@ -26,11 +27,25 @@ public class LoginView extends AppCompatActivity {
 
     private PawDatabase db;
     private UserDAO userDao;
+    private UserSession userSession;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
+
+        userSession = new UserSession(this);
+
+        if (userSession.isLoggedIn()) {
+            Intent intent = new Intent(LoginView.this, MainActivity.class);
+            intent.putExtra("username", userSession.getUsername());
+            intent.putExtra("isAdmin", userSession.isAdmin());
+            intent.putExtra("userId", userSession.getUserId());
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         db = PawDatabase.getInstance(this);
         userDao = db.userDAO();
@@ -44,8 +59,8 @@ public class LoginView extends AppCompatActivity {
 
         usernameEditText = findViewById(R.id.loginUsernameInput);
         passwordEditText = findViewById(R.id.loginPasswordInput);
-        loginButton      = findViewById(R.id.loginBtn);
-        signUpButton     = findViewById(R.id.signUpBtn);
+        loginButton = findViewById(R.id.loginBtn);
+        signUpButton = findViewById(R.id.signUpBtn);
 
         loginButton.setOnClickListener(v -> {
             String username = usernameEditText.getText().toString().trim();
@@ -72,10 +87,14 @@ public class LoginView extends AppCompatActivity {
                 return;
             }
 
+            // Save user session
+            userSession.saveUser(user);
+
             // Success → go to MainActivity (Landing/Dashboard)
             Intent intent = new Intent(LoginView.this, MainActivity.class);
             intent.putExtra("username", user.getUsername());
             intent.putExtra("isAdmin", user.isAdmin());
+            intent.putExtra("userId", user.getUserId());
             startActivity(intent);
             finish();
         });
