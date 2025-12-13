@@ -26,6 +26,7 @@
             android:name=".AdminTasksActivity" />
         <activity
             android:name=".AdminPageActivity" />
+        <activity
             android:name=".PetTasksActivity" />
         <activity
             android:name=".TaskFormActivity" />
