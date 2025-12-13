@@ -27,9 +27,6 @@
         <activity
             android:name=".AdminPageActivity" />
         <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginView"
             android:exported="true">
 
