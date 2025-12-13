@@ -3,14 +3,9 @@ package com.example.project_2_paw;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +13,6 @@ import com.example.project_2_paw.adapters.PetAdapter;
 import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.repository.PawRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -54,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         petRecyclerView.setAdapter(petAdapter);
 
         loadPets();
-
         // create pet logic
         createPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,16 +58,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
         loadPets();
     }
-
     private void loadPets() {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Pet> pets = repository.getPetsByOwnerId(currentUserId);
