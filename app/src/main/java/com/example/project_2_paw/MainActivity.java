@@ -38,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button adminBtn = findViewById(R.id.goAdminButton);
-        adminBtn.setOnClickListener(v -> {
-            startActivity(new Intent(this, AdminPageActivity.class));
-        });
-
         welcome = findViewById(R.id.welcome);
         createPet = findViewById(R.id.createPetMain);
         currentUserId = getIntent().getIntExtra("userId", -1);
