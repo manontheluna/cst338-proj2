@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project_2_paw.adapters.PetAdapter;
 import com.example.project_2_paw.data.entity.Pet;
 import com.example.project_2_paw.data.repository.PawRepository;
+import com.example.project_2_paw.navigation.IntentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,13 @@ public class MainActivity extends AppCompatActivity {
         repository = new PawRepository(this);
         petRecyclerView = findViewById(R.id.petRecycler);
         petRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        petAdapter = new PetAdapter();
+        petAdapter = new PetAdapter(pet -> {
+            Intent intent = new Intent(MainActivity.this, PetTasksActivity.class);
+            intent.putExtra(PetTasksActivity.EXTRA_PET_ID, pet.getPetId());
+            intent.putExtra(PetTasksActivity.EXTRA_PET_NAME, pet.getName());
+            startActivity(intent);
+        });
+
         petRecyclerView.setAdapter(petAdapter);
 
         loadPets();
@@ -65,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // route to pet creation on click of button in main activity
-                Intent intent = new Intent(MainActivity.this, PetCreation.class);
-                intent.putExtra("ownerId", currentUserId);
+                Intent intent = IntentFactory.createPet(MainActivity.this, currentUserId);
                 startActivity(intent);
             }
         });

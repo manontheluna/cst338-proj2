@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
+import com.example.project_2_paw.navigation.IntentFactory;
 
 public class LoginView extends AppCompatActivity {
 
@@ -73,10 +74,12 @@ public class LoginView extends AppCompatActivity {
             }
 
             // Success → go to MainActivity (Landing/Dashboard)
-            Intent intent = new Intent(LoginView.this, MainActivity.class);
-            intent.putExtra("username", user.getUsername());
-            intent.putExtra("isAdmin", user.isAdmin());
-            intent.putExtra("userId", user.getUserId());
+            Intent intent = IntentFactory.createMain(
+                    LoginView.this,
+                    user.getUsername(),
+                    user.isAdmin(),
+                    user.getUserId()
+            );
 
             startActivity(intent);
             finish();
@@ -84,7 +87,7 @@ public class LoginView extends AppCompatActivity {
 
         // SIGN UP → open SignupActivity
         signUpButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginView.this, SignupActivity.class);
+            Intent intent = IntentFactory.createSignup(LoginView.this);
             startActivity(intent);
         });
     }

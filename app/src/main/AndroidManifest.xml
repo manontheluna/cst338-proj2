@@ -26,6 +26,9 @@
             android:name=".AdminTasksActivity" />
         <activity
             android:name=".AdminPageActivity" />
+            android:name=".PetTasksActivity" />
+        <activity
+            android:name=".TaskFormActivity" />
         <activity
             android:name=".LoginView"
             android:exported="true">
