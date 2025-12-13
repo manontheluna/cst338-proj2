@@ -72,8 +72,8 @@ public class LoginView extends AppCompatActivity {
                 return;
             }
 
-            // Success → go to MainActivity (Landing/Dashboard)
-            Intent intent = new Intent(LoginView.this, MainActivity.class);
+            // Success → go to DashboardActivity
+            Intent intent = new Intent(LoginView.this, DashboardActivity.class);
             intent.putExtra("username", user.getUsername());
             intent.putExtra("isAdmin", user.isAdmin());
             intent.putExtra("userId", user.getUserId());
