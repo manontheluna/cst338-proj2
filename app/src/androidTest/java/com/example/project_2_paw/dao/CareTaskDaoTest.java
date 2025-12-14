@@ -9,6 +9,7 @@ package com.example.project_2_paw.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.app.Application;
 import android.content.Context;
@@ -67,5 +68,44 @@ public class CareTaskDaoTest {
         assertEquals("Walk", saved.getTaskName());
         assertEquals(LocalDate.of(2025, 5, 29), saved.getDueDate());
         assertFalse(saved.isCompleted());
+    }
+    @Test
+    public void updateTask_updateExistingTask(){
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
+        careTaskDao.insertTask(task);
+
+        List<CareTask> tasks = careTaskDao.getTasksForPetSync(1);
+        assertEquals(1, tasks.size());
+        CareTask saved = tasks.get(0);
+
+        saved.setTaskName("Vet appointment");
+        saved.setCompleted(true);
+        LocalDate newDate = LocalDate.of(2025, 4, 2);
+        saved.setDueDate(newDate);
+
+        careTaskDao.updateTask(saved);
+
+        List<CareTask> updatedTasks = careTaskDao.getTasksForPetSync(1);
+        assertEquals(1, updatedTasks.size());
+        CareTask updated = updatedTasks.get(0);
+
+        assertEquals("Vet appointment", updated.getTaskName());
+        assertTrue(updated.isCompleted());
+        assertEquals(newDate, updated.getDueDate());
+    }
+    @Test
+    public void deleteTask_removesTaskForPet(){
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29),false);
+        careTaskDao.insertTask(task);
+
+        List<CareTask> tasks = careTaskDao.getTasksForPetSync(1);
+        assertEquals(1, tasks.size());
+        CareTask saved = tasks.get(0);
+        assertNotNull(saved);
+
+        careTaskDao.deleteTask(saved);
+
+        List<CareTask> tasksAfterDelete = careTaskDao.getTasksForPetSync(1);
+        assertTrue(tasksAfterDelete.isEmpty());
     }
 }
