@@ -27,6 +27,9 @@ public class AdminUsersActivity extends AppCompatActivity{
         PawRepository repo = new PawRepository(getApplicationContext());
         List<User> users = repo.getAllUsers();
 
-        rv.setAdapter(new AdminUserAdapter(users));
+        UserSession session = new UserSession(this);
+        int currentAdminId = session.getUserId();
+
+        rv.setAdapter(new AdminUserAdapter(users, repo, currentAdminId));
     }
 }

@@ -102,7 +102,7 @@ public class LoginView extends AppCompatActivity {
             if (user == null) {
                 Toast.makeText(
                         LoginView.this,
-                        "Invalid username or password",
+                        "Invalid credentials or account deactivated",
                         Toast.LENGTH_SHORT
                 ).show();
                 return;
@@ -127,5 +127,6 @@ public class LoginView extends AppCompatActivity {
             Intent intent = IntentFactory.createSignup(LoginView.this);
             startActivity(intent);
         });
+
     }
 }

@@ -21,8 +21,21 @@
         android:layout_height="wrap_content"
         android:text="ADMIN"
         android:textSize="12sp"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/btnDeactivateUser" />
+
+    <ImageButton
+        android:id="@+id/btnDeactivateUser"
+        android:layout_width="18dp"
+        android:layout_height="20dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:contentDescription="Deactivate user"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,4 +81,8 @@ public class PawRepository {
     public List<CareTask> getTasksForPetByCompletionSync(int petId, boolean completed) {
         return careTaskDAO.getTasksForPetByCompletionSync(petId, completed);
     }
+
+    public void deactivateUser(int userId) {
+        executor.execute(() -> userDAO.deactivateUser(userId));
+    }
 }
