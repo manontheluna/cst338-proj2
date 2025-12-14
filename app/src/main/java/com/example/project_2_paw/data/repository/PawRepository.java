@@ -59,6 +59,10 @@ public class PawRepository {
         return petDAO.getPetsByOwnerId(ownerId);
     }
 
+    public List<Pet> getAllPets() {
+        return petDAO.getAllPets();
+    }
+
     // ----- CareTask operations -----
     public void insertTask(CareTask task) {
         executor.execute(() -> careTaskDAO.insertTask(task));

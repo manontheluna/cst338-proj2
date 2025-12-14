@@ -3,6 +3,7 @@ package com.example.project_2_paw.navigation;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.project_2_paw.AdminPetsActivity;
 import com.example.project_2_paw.LoginView;
 import com.example.project_2_paw.MainActivity;
 import com.example.project_2_paw.PetCreation;
@@ -31,5 +32,8 @@ public class IntentFactory {
         Intent intent = new Intent(context, PetCreation.class);
         intent.putExtra(EXTRA_OWNER_ID, ownerId);
         return intent;
+    }
+    public static Intent createAdminPets(Context context) {
+        return new Intent(context, AdminPetsActivity.class);
     }
 }

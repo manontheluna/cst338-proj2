@@ -27,6 +27,9 @@ public interface PetDAO {
     @Query("SELECT * FROM pet_table WHERE ownerId = :ownerId")
     List<Pet> getPetsByOwnerId(int ownerId);
 
+    @Query("SELECT * FROM pet_table")
+    List<Pet> getAllPets();
+
     // Deletes a pet from the database.
     @Delete
     void delete(Pet pet);

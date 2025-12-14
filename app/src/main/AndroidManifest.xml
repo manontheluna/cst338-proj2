@@ -31,6 +31,8 @@
         <activity
             android:name=".TaskFormActivity" />
         <activity
+            android:name=".AdminPetsActivity" />
+        <activity
             android:name=".LoginView"
             android:exported="true">
 

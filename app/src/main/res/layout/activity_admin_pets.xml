@@ -2,32 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/adminUsersTitle"
+        android:id="@+id/txtAdminPetsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Admin: Users"
+        android:text="Admin: Pets"
         android:textSize="24sp"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="30dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="30dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/adminUsersRecycler"
+        android:id="@+id/adminPetsRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="24dp"
-        app:layout_constraintTop_toBottomOf="@id/adminUsersTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtAdminPetsTitle"
+        app:layout_constraintBottom_toTopOf="@id/adminPetsButtonRow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/adminUsersButtonRow"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
-        android:id="@+id/adminUsersButtonRow"
+        android:id="@+id/adminPetsButtonRow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -38,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/btnBackAdminUsers"
+            android:id="@+id/btnBackAdminPets"
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:text="Back"

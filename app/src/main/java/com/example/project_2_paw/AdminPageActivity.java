@@ -18,5 +18,9 @@ public class AdminPageActivity extends AppCompatActivity{
             findViewById(R.id.btnManageTasks).setOnClickListener(v -> {
                 startActivity(new Intent(this, AdminTasksActivity.class));
             });
+            findViewById(R.id.btnManagePets).setOnClickListener(v -> {
+                Intent intent = new Intent(this, AdminPetsActivity.class);
+                startActivity(intent);
+            });
         }
 }
