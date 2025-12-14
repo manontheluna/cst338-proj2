@@ -52,4 +52,41 @@ public class UserDaoTest {
         User user = userDao.login("testuser", "wrongpassword");
         assertNull(user);
     }
+    @Test
+    public void insertUser_insertsAndCanFetchByUsername() {
+        User u = new User("u_insert", "pw", false);
+        userDao.insert(u);
+
+        User fetched = userDao.getUserByUsername("u_insert");
+        assertNotNull(fetched);
+        assertEquals("u_insert", fetched.getUsername());
+        assertEquals("pw", fetched.getPassword());
+        assertFalse(fetched.isAdmin());
+    }
+
+    @Test
+    public void updateUser_updatesPassword() {
+        User u = new User("u_update", "pw1", false);
+        userDao.insert(u);
+
+        User fetched = userDao.getUserByUsername("u_update");
+        fetched.setPassword("pw2");
+        userDao.update(fetched);
+
+        User updated = userDao.getUserByUsername("u_update");
+        assertNotNull(updated);
+        assertEquals("pw2", updated.getPassword());
+    }
+
+    @Test
+    public void deleteUser_deletesAndQueryReturnsNull() {
+        User u = new User("u_delete", "pw", false);
+        userDao.insert(u);
+
+        User fetched = userDao.getUserByUsername("u_delete");
+        userDao.delete(fetched);
+
+        User afterDelete = userDao.getUserByUsername("u_delete");
+        assertNull(afterDelete);
+    }
 }

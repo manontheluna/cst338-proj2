@@ -4,6 +4,8 @@ package com.example.project_2_paw.data.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Delete;
+import androidx.room.Update;
 
 import com.example.project_2_paw.data.entity.User;
 
@@ -20,6 +22,12 @@ public interface UserDAO {
     // Inserts a new user into the database.
     @Insert
     void insert(User user);
+
+    @Update
+    void update(User user);
+
+    @Delete
+    void delete(User user);
 
     // Retrieves a user by username.
     @Query("SELECT * FROM user_table WHERE username = :username LIMIT 1")
