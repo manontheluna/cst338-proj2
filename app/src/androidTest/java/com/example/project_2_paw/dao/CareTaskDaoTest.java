@@ -3,7 +3,7 @@ package com.example.project_2_paw.dao;
 /**
  * @author Manuel Caro
  * @date 12/14/2025
- * @description Unit test for CareTaskDao
+ * @description Database tests for CareTaskDao
  */
 
 import static org.junit.Assert.assertEquals;
@@ -35,7 +35,8 @@ import java.util.List;
 
 /**
  * Unit test for CareTaskDAO
- * Verifies basic operations: insert, update, and delete.
+ * Verifies basic operations: insert, update, and delete operations and
+ * ensures foreign key constraints with the Pet entity are respected.
  */
 
 @RunWith(AndroidJUnit4.class)
@@ -43,6 +44,11 @@ public class CareTaskDaoTest {
     private PawDatabase db;
     private CareTaskDAO careTaskDao;
     private PetDAO petDao;
+
+    /**
+     * Creates a new in-memory Room database before each test,
+     * and initializes both CareTAskDAO and PetDao.
+     */
 
     @Before
     public void setup() {
@@ -54,11 +60,19 @@ public class CareTaskDaoTest {
         petDao = db.petDAO();
     }
 
+    /**
+     * Closes the in-memory database after each test.
+     */
     @After
     public void teardown() {
         db.close();
     }
 
+    /**
+     * Tests the insertion of a CareTask and verifies that the
+     * task is stored in the database, petId is correctly linked,
+     * and all fields match expected values.
+     */
     @Test
     public void insertTask_savesTaskToDatabase() {
 
@@ -81,6 +95,10 @@ public class CareTaskDaoTest {
         assertFalse(saved.isCompleted());
     }
 
+    /**
+     * Tests updating a CareTask by modifying its firlds and confirming that
+     * the updates are correctly reported when the task is reloaded.
+     */
     @Test
     public void updateTask_updateExistingTask() {
 
@@ -111,6 +129,11 @@ public class CareTaskDaoTest {
         assertEquals(newDate, updated.getDueDate());
     }
 
+    /**
+     * Tests the deletion of a CareTask and ensures that the task is
+     * removed from the database, no remaining tasks exists for the given
+     * petId.
+     */
     @Test
     public void deleteTask_removesTaskForPet() {
 
