@@ -26,6 +26,6 @@ public class AdminTasksActivity extends AppCompatActivity{
         PawRepository repo = new PawRepository(getApplicationContext());
         List<CareTask> tasks = repo.getAllTasks();
 
-        rv.setAdapter(new AdminTaskAdapter(tasks));
+        rv.setAdapter(new AdminTaskAdapter(tasks, repo));
     }
 }

@@ -11,18 +11,22 @@
         android:layout_height="wrap_content"
         android:text="Task Title"
         android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/txtTaskStatus"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        />
 
     <TextView
         android:id="@+id/txtTaskDueDate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Due: 01-01-2025"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTaskTitle" />
+        app:layout_constraintStart_toStartOf="@id/txtTaskTitle"
+        app:layout_constraintEnd_toEndOf="@id/txtTaskTitle"
+        app:layout_constraintTop_toBottomOf="@id/txtTaskTitle"/>
 
     <TextView
         android:id="@+id/txtTaskStatus"
@@ -30,7 +34,20 @@
         android:layout_height="wrap_content"
         android:text="Pending"
         android:textSize="14sp"
+        android:paddingEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/btnDeleteTask"
+        app:layout_constraintBaseline_toBaselineOf="@id/txtTaskTitle"
+        />
+
+    <ImageButton
+        android:id="@+id/btnDeleteTask"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="Delete task"
+        android:src="@android:drawable/ic_menu_delete"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTaskTitle" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
