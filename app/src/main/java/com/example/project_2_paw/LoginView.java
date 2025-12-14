@@ -128,4 +128,19 @@ public class LoginView extends AppCompatActivity {
             startActivity(intent);
         });
     }
+    /**
+     * Validates login input fields.
+     * Used for unit testing and basic input checks.
+     *
+     * @param username the entered username
+     * @param password the entered password
+     * @return true if both fields are non-empty (after trimming), false otherwise
+     */
+    public static boolean isLoginInputValid(String username, String password) {
+        if (username == null || password == null) {
+            return false;
+        }
+        return !username.trim().isEmpty() && !password.trim().isEmpty();
+    }
 }
+
