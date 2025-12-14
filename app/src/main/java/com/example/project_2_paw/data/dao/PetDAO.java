@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.project_2_paw.data.entity.Pet;
 
@@ -22,12 +23,14 @@ public interface PetDAO {
     // Inserts a new pet into the database.
     @Insert
     void insert(Pet pet);
-
-    // Returns all pets that belong to a specific user.
-    @Query("SELECT * FROM pet_table WHERE ownerId = :ownerId")
-    List<Pet> getPetsByOwnerId(int ownerId);
+    @Update
+    void update(Pet pet);
 
     // Deletes a pet from the database.
     @Delete
     void delete(Pet pet);
+
+    // Returns all pets that belong to a specific user.
+    @Query("SELECT * FROM pet_table WHERE ownerId = :ownerId")
+    List<Pet> getPetsByOwnerId(int ownerId);
 }
