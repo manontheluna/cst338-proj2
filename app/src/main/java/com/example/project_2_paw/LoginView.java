@@ -11,12 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_2_paw.data.dao.UserDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.User;
 import com.example.project_2_paw.navigation.IntentFactory;
+
+
+/**
+ * LoginView handles all login-related functionality.
+ * Redirects already logged-in users using UserSession.
+ * Authenticates user credentials through ROOM (UserDAO).
+ * Seeds a default admin user if missing.
+ * Provides navigation to SignupActivity for new users.
+ */
 
 public class LoginView extends AppCompatActivity {
 
@@ -27,11 +37,34 @@ public class LoginView extends AppCompatActivity {
 
     private PawDatabase db;
     private UserDAO userDao;
+    private UserSession userSession;
 
+    /**
+     * Initializes the login screen, checks for an active session, seeds admin user,
+     * and sets up listeners for login and sign-up actions.
+     *
+     * @param savedInstanceState Saved instance state bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_view);
+
+        // Initialize user session management
+        userSession = new UserSession(this);
+
+        // If user is already logged in, skip login screen and go to MainActivity
+        if (userSession.isLoggedIn()){
+            Intent intent = IntentFactory.createMain(
+                    LoginView.this,
+                    userSession.getUsername(),
+                    userSession.isAdmin(),
+                    userSession.getUserId()
+            );
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         db = PawDatabase.getInstance(this);
         userDao = db.userDAO();
@@ -43,11 +76,13 @@ public class LoginView extends AppCompatActivity {
             userDao.insert(admin);
         }
 
+        //UI bindings
         usernameEditText = findViewById(R.id.loginUsernameInput);
         passwordEditText = findViewById(R.id.loginPasswordInput);
-        loginButton      = findViewById(R.id.loginBtn);
-        signUpButton     = findViewById(R.id.signUpBtn);
+        loginButton = findViewById(R.id.loginBtn);
+        signUpButton = findViewById(R.id.signUpBtn);
 
+        // Login button functionality
         loginButton.setOnClickListener(v -> {
             String username = usernameEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
@@ -73,6 +108,9 @@ public class LoginView extends AppCompatActivity {
                 return;
             }
 
+            // Save user session so login persists
+            userSession.saveUser(user);
+
             // Success → go to MainActivity (Landing/Dashboard)
             Intent intent = IntentFactory.createMain(
                     LoginView.this,
@@ -80,7 +118,6 @@ public class LoginView extends AppCompatActivity {
                     user.isAdmin(),
                     user.getUserId()
             );
-
             startActivity(intent);
             finish();
         });

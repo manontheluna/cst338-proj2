@@ -55,6 +55,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/petRecycler"
         />
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="Log Out"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintTop_toBottomOf="@id/petRecycler"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <Button
         android:id="@+id/btnAdmin"
