@@ -14,7 +14,15 @@ import java.time.LocalDate;
 
 /**
  * Unit tests for the CareTask entity.
- * Verifies that getters and setters behave as expected.
+ * Verifies that getters and setters behave as expected for:
+ * taskID
+ * petID
+ * taskName
+ * dueDate
+ * isCompleted.
+ * <p>
+ * Ensures that CareTask objects correctly store and update
+ * their internal state.
  */
 
 public class CareTaskTest {
@@ -28,14 +36,14 @@ public class CareTaskTest {
 
     @Test
     public void setTaskId() {
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29),false);
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
         task.setTaskId(5);
         assertEquals(5, task.getTaskId());
     }
 
     @Test
     public void getPetId() {
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29), false);
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
         assertEquals(1, task.getPetId());
     }
 
@@ -68,21 +76,21 @@ public class CareTaskTest {
 
     @Test
     public void setDueDate() {
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29), false);
-    LocalDate newDate = LocalDate.of(2025, 4, 2);
-    task.setDueDate(newDate);
-    assertEquals(newDate, task.getDueDate());
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
+        LocalDate newDate = LocalDate.of(2025, 4, 2);
+        task.setDueDate(newDate);
+        assertEquals(newDate, task.getDueDate());
     }
 
     @Test
     public void isCompleted() {
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29), false);
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
         assertFalse(task.isCompleted());
     }
 
     @Test
     public void setCompleted() {
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29), false);
+        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
         task.setCompleted(true);
         assertTrue(task.isCompleted());
         task.setCompleted(false);
