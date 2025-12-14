@@ -19,8 +19,10 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.project_2_paw.data.dao.CareTaskDAO;
+import com.example.project_2_paw.data.dao.PetDAO;
 import com.example.project_2_paw.data.db.PawDatabase;
 import com.example.project_2_paw.data.entity.CareTask;
+import com.example.project_2_paw.data.entity.Pet;
 
 import org.junit.After;
 import org.junit.Before;
@@ -40,6 +42,7 @@ import java.util.List;
 public class CareTaskDaoTest {
     private PawDatabase db;
     private CareTaskDAO careTaskDao;
+    private PetDAO petDao;
 
     @Before
     public void setup() {
@@ -48,6 +51,7 @@ public class CareTaskDaoTest {
                 .allowMainThreadQueries()
                 .build();
         careTaskDao = db.careTaskDAO();
+        petDao = db.petDAO();
     }
 
     @After
@@ -57,21 +61,34 @@ public class CareTaskDaoTest {
 
     @Test
     public void insertTask_savesTaskToDatabase() {
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
+
+        Pet pet = new Pet(1, "Luna", "Dog", 14);
+        petDao.insert(pet);
+
+        int petId = petDao.getPetsByOwnerId(1).get(0).getPetId();
+
+        CareTask task = new CareTask(petId, "Walk", LocalDate.of(2025, 5, 29), false);
         careTaskDao.insertTask(task);
-        List<CareTask> tasks = careTaskDao.getTasksForPetSync(1);
+
+        List<CareTask> tasks = careTaskDao.getTasksForPetSync(petId);
         assertNotNull(tasks);
         assertEquals(1, tasks.size());
 
         CareTask saved = tasks.get(0);
-        assertEquals(1, saved.getPetId());
+        assertEquals(petId, saved.getPetId());
         assertEquals("Walk", saved.getTaskName());
         assertEquals(LocalDate.of(2025, 5, 29), saved.getDueDate());
         assertFalse(saved.isCompleted());
     }
+
     @Test
-    public void updateTask_updateExistingTask(){
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025, 5, 29), false);
+    public void updateTask_updateExistingTask() {
+
+        Pet pet = new Pet(1, "Luna", "Dog", 14);
+        petDao.insert(pet);
+        int petId = petDao.getPetsByOwnerId(1).get(0).getPetId();
+
+        CareTask task = new CareTask(petId, "Walk", LocalDate.of(2025, 5, 29), false);
         careTaskDao.insertTask(task);
 
         List<CareTask> tasks = careTaskDao.getTasksForPetSync(1);
@@ -93,9 +110,15 @@ public class CareTaskDaoTest {
         assertTrue(updated.isCompleted());
         assertEquals(newDate, updated.getDueDate());
     }
+
     @Test
-    public void deleteTask_removesTaskForPet(){
-        CareTask task = new CareTask(1, "Walk", LocalDate.of(2025,5,29),false);
+    public void deleteTask_removesTaskForPet() {
+
+        Pet pet = new Pet(1, "Luna", "Dog", 14);
+        petDao.insert(pet);
+        int petId = petDao.getPetsByOwnerId(1).get(0).getPetId();
+
+        CareTask task = new CareTask(petId, "Walk", LocalDate.of(2025, 5, 29), false);
         careTaskDao.insertTask(task);
 
         List<CareTask> tasks = careTaskDao.getTasksForPetSync(1);
