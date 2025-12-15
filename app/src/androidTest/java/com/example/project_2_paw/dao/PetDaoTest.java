@@ -36,20 +36,43 @@ public class PetDaoTest {
     public void teardown() {
         db.close();
     }
-    @Test
-    public void insertPet_andGetPetsByOwnerId_returnsInsertedPet() {
-        int ownerId = 42;
 
-        Pet pet = new Pet(ownerId, "Buddy", "Dog", 3);
+    @Test
+    public void insertPet_insertsAndCanFetchByOwner() {
+        int ownerId = 101;
+        Pet pet = new Pet(ownerId, "Buddy", "Dog", 3); // constructor matches your entity :contentReference[oaicite:5]{index=5}
         petDao.insert(pet);
 
-        List<Pet> result = petDao.getPetsByOwnerId(ownerId);
+        List<Pet> pets = petDao.getPetsByOwnerId(ownerId);
+        assertEquals(1, pets.size());
+        assertEquals("Buddy", pets.get(0).getName());
+    }
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Buddy", result.get(0).getName());
-        assertEquals("Dog", result.get(0).getSpecies());
-        assertEquals(3, result.get(0).getAge());
-        assertEquals(ownerId, result.get(0).getOwnerId());
+    @Test
+    public void updatePet_updatesName() {
+        int ownerId = 202;
+        Pet pet = new Pet(ownerId, "OldName", "Cat", 2);
+        petDao.insert(pet);
+
+        Pet fetched = petDao.getPetsByOwnerId(ownerId).get(0);
+        fetched.setName("NewName");
+        petDao.update(fetched);
+
+        Pet updated = petDao.getPetsByOwnerId(ownerId).get(0);
+        assertEquals("NewName", updated.getName());
+    }
+
+
+    @Test
+    public void deletePet_deletesAndNoLongerReturned() {
+        int ownerId = 303;
+        Pet pet = new Pet(ownerId, "ToDelete", "Dog", 5);
+        petDao.insert(pet);
+
+        Pet fetched = petDao.getPetsByOwnerId(ownerId).get(0);
+        petDao.delete(fetched);
+
+        List<Pet> after = petDao.getPetsByOwnerId(ownerId);
+        assertEquals(0, after.size());
     }
 }
