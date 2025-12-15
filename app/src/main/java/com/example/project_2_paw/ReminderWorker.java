@@ -27,31 +27,37 @@ public class ReminderWorker extends Worker {
         String message = getInputData().getString("message");
 
         Context context = getApplicationContext();
+        String channelId = "reminder_channel_high";
 
         // Notification channel for Android 8+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    "reminder_channel",
+                    channelId,
                     "Reminder Notifications",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
+            channel.enableVibration(true);
+            channel.setDescription("Reminders for task: " + title);
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             if (manager != null) {
                 manager.createNotificationChannel(channel);
             }
         }
 
-        // Build and show notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "reminder_channel")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setAutoCancel(true);
 
         NotificationManagerCompat.from(context)
                 .notify((int) System.currentTimeMillis(), builder.build());
 
-        Log.d("ReminderWorker: ", "doWork triggered for task " + title);
+        Log.d("ReminderWorker", "doWork triggered for task " + title);
+
         return Result.success();
     }
 }
