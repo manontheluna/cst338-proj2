@@ -26,6 +26,9 @@ public interface PetDAO {
     @Update
     void update(Pet pet);
 
+    @Query("SELECT * FROM pet_table")
+    List<Pet> getAllPets();
+
     // Deletes a pet from the database.
     @Delete
     void delete(Pet pet);

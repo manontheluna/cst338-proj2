@@ -37,8 +37,11 @@ public interface UserDAO {
     List<User> getAllUsers();
 
     // Validates login credentials.
-    @Query("SELECT * FROM user_table WHERE username = :username AND password = :password LIMIT 1")
+    @Query("SELECT * FROM user_table WHERE username = :username AND password = :password  AND isActive = 1 LIMIT 1")
     User login(String username, String password);
+
+    @Query("UPDATE user_table SET isActive = 0 WHERE userId = :userId")
+    void deactivateUser(int userId);
 
     // Retrieves a user by ID.
     @Query("SELECT * FROM user_table WHERE userId = :id LIMIT 1")

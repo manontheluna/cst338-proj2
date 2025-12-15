@@ -59,6 +59,10 @@ public class PawRepository {
         return petDAO.getPetsByOwnerId(ownerId);
     }
 
+    public List<Pet> getAllPets() {
+        return petDAO.getAllPets();
+    }
+
     // ----- CareTask operations -----
     public void insertTask(CareTask task) {
         executor.execute(() -> careTaskDAO.insertTask(task));
@@ -80,5 +84,9 @@ public class PawRepository {
     }
     public List<CareTask> getTasksForPetByCompletionSync(int petId, boolean completed) {
         return careTaskDAO.getTasksForPetByCompletionSync(petId, completed);
+    }
+
+    public void deactivateUser(int userId) {
+        executor.execute(() -> userDAO.deactivateUser(userId));
     }
 }

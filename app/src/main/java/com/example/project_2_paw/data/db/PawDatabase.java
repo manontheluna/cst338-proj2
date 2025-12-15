@@ -24,7 +24,7 @@ import com.example.project_2_paw.typeConverters.LocalDateTypeConverter;
  */
 
 @Database(entities = { User.class, Pet.class, CareTask.class},
-        version = 2, exportSchema = false)
+        version = 3, exportSchema = false)
 @TypeConverters({LocalDateTypeConverter.class})
 public abstract class PawDatabase extends RoomDatabase{
     // DAO accessors

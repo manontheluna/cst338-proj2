@@ -21,6 +21,7 @@ public class User {
     private String username;
     private String password;
     private boolean isAdmin;
+    private boolean isActive = true;
 
     /**
      * Constructor used by the application to create a new user.
@@ -43,4 +44,12 @@ public class User {
 
     public boolean isAdmin() { return isAdmin; }
     public void setAdmin(boolean admin) { isAdmin = admin; }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }
