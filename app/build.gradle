@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    id "com.google.gms.google-services" version "4.4.4" apply false
 }
 
 android {
@@ -44,6 +43,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
-    // firebase dependency
-    implementation "com.google.firebase:firebase-messaging:25.0.1"
+    // android worker to implement notifications
+    implementation "androidx.work:work-runtime:2.11.0"
 }
