@@ -4,6 +4,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
+import com.example.project_2_paw.navigation.IntentFactory;
+
 public class AdminPageActivity extends AppCompatActivity{
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +21,7 @@ public class AdminPageActivity extends AppCompatActivity{
                 startActivity(new Intent(this, AdminTasksActivity.class));
             });
             findViewById(R.id.btnManagePets).setOnClickListener(v -> {
-                Intent intent = new Intent(this, AdminPetsActivity.class);
-                startActivity(intent);
+                startActivity(IntentFactory.createAdminPets(this));
             });
         }
 }
