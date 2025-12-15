@@ -27,7 +27,7 @@ public class ReminderWorker extends Worker {
         String message = getInputData().getString("message");
 
         Context context = getApplicationContext();
-        String channelId = "reminder_channel_high";
+        String channelId = "reminder_channel_" + System.currentTimeMillis();
 
         // Notification channel for Android 8+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -53,11 +53,15 @@ public class ReminderWorker extends Worker {
                 .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat.from(context)
-                .notify((int) System.currentTimeMillis(), builder.build());
+        try {
+            NotificationManagerCompat.from(context)
+                    .notify((int) System.currentTimeMillis(), builder.build());
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return Result.failure();
+        }
 
         Log.d("ReminderWorker", "doWork triggered for task " + title);
-
         return Result.success();
     }
 }

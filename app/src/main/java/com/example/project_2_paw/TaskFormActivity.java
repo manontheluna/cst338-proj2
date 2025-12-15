@@ -1,30 +1,34 @@
 package com.example.project_2_paw;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.project_2_paw.data.entity.CareTask;
 import com.example.project_2_paw.data.repository.PawRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
 public class TaskFormActivity extends AppCompatActivity {
-    private static final int REQUEST_NOTIFICATION_PERMISSION = 1001;
+
+    String CHANNEL_ID = "reminder_channel_" + System.currentTimeMillis();
+
     private EditText editTaskName;
     private EditText editDueDate;
     private Button saveTaskButton;
@@ -33,10 +37,7 @@ public class TaskFormActivity extends AppCompatActivity {
     private int petId;
     private PawRepository repository;
 
-    private String pendingTaskName;
-
-    private final DateTimeFormatter dateFormatter =
-            DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,22 +56,31 @@ public class TaskFormActivity extends AppCompatActivity {
         saveTaskButton = findViewById(R.id.saveTaskButton);
         cancelTaskButton = findViewById(R.id.cancelTaskButton);
 
-        // Button listeners
         cancelTaskButton.setOnClickListener(v -> finish());
-
         saveTaskButton.setOnClickListener(v -> onSaveClicked());
+
+        // Request notification permission for Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                        != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    101);
+        }
+
+        // Create the notification channel once
+        createNotificationChannel();
     }
+
     private void onSaveClicked() {
         String name = editTaskName.getText().toString().trim();
         String dateInput = editDueDate.getText().toString().trim();
 
-        // Basic validation
         if (name.isEmpty()) {
             editTaskName.setError("Task name is required");
             return;
         }
 
-        // Parse date in dd-MM-yyyy or use today if empty
         LocalDate dueDate;
         if (dateInput.isEmpty()) {
             dueDate = LocalDate.now();
@@ -82,57 +92,54 @@ public class TaskFormActivity extends AppCompatActivity {
                 return;
             }
         }
-        // Create CareTask (new tasks start not completed)
-        CareTask task = new CareTask(petId, name, dueDate, false);
 
-        // Insert via repository (runs on background thread inside repository)
+        CareTask task = new CareTask(petId, name, dueDate, false);
         repository.insertTask(task);
 
-        pendingTaskName = name;
+        // Schedule notification after 30 seconds
+        scheduleNotification(this, "Task Reminder", "Don't forget: " + name, 30_000);
 
-        // Request notification permission if needed
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                        != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                    REQUEST_NOTIFICATION_PERMISSION);
-        } else {
-            // Permission already granted, schedule reminder immediately
-            scheduleReminder(name);
-        }
-        // Close form and return to PetTasksActivity
         finish();
     }
 
-    private void scheduleReminder(String taskName) {
-        long delayMillis = 5_000; // 30 seconds for demo
-        Data data = new Data.Builder()
-                .putString("title", "Task Reminder")
-                .putString("message", "Don't forget: " + taskName)
-                .build();
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager == null) return;
 
-        OneTimeWorkRequest reminderWork = new OneTimeWorkRequest.Builder(ReminderWorker.class)
-                .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
-                .setInputData(data)
-                .build();
-
-        WorkManager.getInstance(this).enqueue(reminderWork);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted → schedule reminder
-                scheduleReminder(pendingTaskName);
-                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show();
-            } else {
-                // Permission denied
-                Toast.makeText(this, "Cannot show reminders without permission", Toast.LENGTH_LONG).show();
+            NotificationChannel existing = manager.getNotificationChannel(CHANNEL_ID);
+            if (existing == null) { // only create if it doesn't exist
+                NotificationChannel channel = new NotificationChannel(
+                        CHANNEL_ID,
+                        "Task Reminders",
+                        NotificationManager.IMPORTANCE_HIGH
+                );
+                channel.enableVibration(true);
+                channel.setDescription("Reminders for your tasks");
+                manager.createNotificationChannel(channel);
             }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void scheduleNotification(Context context, String title, String message, long delayMillis) {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setAutoCancel(true);
+
+            try {
+                NotificationManagerCompat.from(context)
+                        .notify((int) System.currentTimeMillis(), builder.build());
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+
+        }, delayMillis);
     }
 }
