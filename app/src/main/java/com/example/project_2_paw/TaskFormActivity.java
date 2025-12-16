@@ -55,7 +55,7 @@ public class TaskFormActivity extends AppCompatActivity {
         editDueDate = findViewById(R.id.editDueDate);
         saveTaskButton = findViewById(R.id.saveTaskButton);
         cancelTaskButton = findViewById(R.id.cancelTaskButton);
-
+        // Button listeners
         cancelTaskButton.setOnClickListener(v -> finish());
         saveTaskButton.setOnClickListener(v -> onSaveClicked());
 
@@ -76,11 +76,13 @@ public class TaskFormActivity extends AppCompatActivity {
         String name = editTaskName.getText().toString().trim();
         String dateInput = editDueDate.getText().toString().trim();
 
+        // Basic validation
         if (name.isEmpty()) {
             editTaskName.setError("Task name is required");
             return;
         }
 
+        // Parse date in dd-MM-yyyy or use today if empty
         LocalDate dueDate;
         if (dateInput.isEmpty()) {
             dueDate = LocalDate.now();
@@ -93,10 +95,13 @@ public class TaskFormActivity extends AppCompatActivity {
             }
         }
 
+        // Create CareTask (new tasks start not completed)
+        // Insert via repository (runs on background thread inside repository)
         CareTask task = new CareTask(petId, name, dueDate, false);
         repository.insertTask(task);
 
-        // Schedule notification after 30 seconds
+        // Close form and return to PetTasksActivity
+        // Schedule notification after 5 seconds
         scheduleNotification(this, "Task Reminder", "Don't forget: " + name, 5_000);
 
         finish();
