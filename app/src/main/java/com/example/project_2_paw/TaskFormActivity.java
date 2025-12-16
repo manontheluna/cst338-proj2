@@ -97,7 +97,7 @@ public class TaskFormActivity extends AppCompatActivity {
         repository.insertTask(task);
 
         // Schedule notification after 30 seconds
-        scheduleNotification(this, "Task Reminder", "Don't forget: " + name, 30_000);
+        scheduleNotification(this, "Task Reminder", "Don't forget: " + name, 5_000);
 
         finish();
     }
@@ -112,7 +112,7 @@ public class TaskFormActivity extends AppCompatActivity {
                 NotificationChannel channel = new NotificationChannel(
                         CHANNEL_ID,
                         "Task Reminders",
-                        NotificationManager.IMPORTANCE_HIGH
+                        NotificationManager.IMPORTANCE_DEFAULT
                 );
                 channel.enableVibration(true);
                 channel.setDescription("Reminders for your tasks");
