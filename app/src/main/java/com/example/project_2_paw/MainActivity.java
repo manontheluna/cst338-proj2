@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private String username;
     private int currentUserId;
 
-    private RecyclerView petRecyclerView;
-    private PetAdapter petAdapter;
     private PawRepository repository;
 
     private UserSession userSession; // Added by Manuel for logout function
@@ -63,18 +61,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         repository = new PawRepository(this);
-        petRecyclerView = findViewById(R.id.petRecycler);
-        petRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        petAdapter = new PetAdapter(pet -> {
-            Intent intent = new Intent(MainActivity.this, PetTasksActivity.class);
-            intent.putExtra(PetTasksActivity.EXTRA_PET_ID, pet.getPetId());
-            intent.putExtra(PetTasksActivity.EXTRA_PET_NAME, pet.getName());
-            startActivity(intent);
-        });
 
-        petRecyclerView.setAdapter(petAdapter);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.petListContainer, PetListFragment.newInstance(currentUserId))
+                    .commit();
+        }
 
-        loadPets();
+
+
         // create pet logic
         createPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,15 +88,5 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Close MainActivity
         });
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadPets();
-    }
-    private void loadPets() {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            List<Pet> pets = repository.getPetsByOwnerId(currentUserId);
-            runOnUiThread(() -> petAdapter.setPets(pets));
-        });
-    }
+
 }
